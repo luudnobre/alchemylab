@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coding House • Alchemy Run </title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#0b0f1a">
+</head>
+<body>
+  <!-- BACKGROUND ALCHEMY -->
+  <div class="bg">
+    <div class="bg__gradient"></div>
+    <div class="bg__orbs"></div>
+    <div class="bg__noise"></div>
+    <!-- Alchemical glyphs -->
+    <svg class="bg__sigils" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <g id="sigil-triangle">
+          <polygon points="50,10 90,90 10,90" fill="none" stroke="currentColor" stroke-width="1"/>
+          <circle cx="50" cy="58" r="10" fill="none" stroke="currentColor" stroke-width="0.8"/>
+        </g>
+        <g id="sigil-circle-cross">
+          <circle cx="50" cy="50" r="20" fill="none" stroke="currentColor" stroke-width="1"/>
+          <line x1="50" y1="30" x2="50" y2="70" stroke="currentColor" stroke-width="0.8"/>
+          <line x1="30" y1="50" x2="70" y2="50" stroke="currentColor" stroke-width="0.8"/>
+        </g>
+        <g id="sigil-merkaba">
+          <polygon points="50,18 70,52 30,52" fill="none" stroke="currentColor" stroke-width="0.9"/>
+          <polygon points="50,82 30,48 70,48" fill="none" stroke="currentColor" stroke-width="0.9"/>
+        </g>
+      </defs>
+      <use href="#sigil-triangle" x="0" y="0" class="sigil s1"/>
+      <use href="#sigil-circle-cross" x="0" y="0" class="sigil s2"/>
+      <use href="#sigil-merkaba" x="0" y="0" class="sigil s3"/>
+    </svg>
+  </div>
+
+  <!-- APP -->
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <span class="sparkle">✧</span>
+        <h1>Coding House <em>• Alchemy Run</em></h1>
+      </div>
+      <div class="presets">
+        <button class="chip" data-preset="filha-fogo">Filha & Fogo</button>
+        <button class="chip" data-preset="silencio-cidade">Silêncio & Cidade</button>
+        <button class="chip" data-preset="ritmo-mar">Ritmo & Mar</button>
+        <button class="chip" data-preset="codigo-cura">Código & Cura</button>
+      </div>
+    </header>
+
+    <main class="grid">
+      <!-- LEFT: BRIEF + TIMER -->
+      <section class="card">
+        <div class="card__head">
+          <div class="badge">Brief Ativo</div>
+          <div class="timer">
+            <svg viewBox="0 0 36 36" class="timer__ring">
+              <path class="bg" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32"/>
+              <path class="fg" id="timerPath" d="M18 2 a 16 16 0 0 1 0 32 a 16 16 0 0 1 0 -32"
+                    stroke-dasharray="100 100"/>
+            </svg>
+            <span id="timerText">00:30</span>
+          </div>
+        </div>
+
+        <div class="brief">
+          <div class="brief__row"><strong>Meio:</strong> <span id="briefMedium">canção acústica</span></div>
+          <div class="brief__row"><strong>Tema:</strong> <span id="briefTheme">Luz em corredores escuros</span></div>
+          <div class="brief__row"><strong>Twist:</strong> <span id="briefTwist">usar 2 idiomas (pt + en)</span></div>
+          <div class="brief__row"><strong>Foco:</strong> <span id="briefFocus">voz</span></div>
+          <div class="brief__row"><strong>Tom:</strong> <span id="briefTone">contemplativo</span></div>
+        </div>
+
+        <div class="constraints">
+          <h3>Desafios da rodada</h3>
+          <ul id="constraintList" class="pill-list"></ul>
+        </div>
+
+        <div class="actions">
+          <button id="btnRoll" class="btn ghost">🎲 Novo Pack</button>
+          <button id="btnStart" class="btn">▶ Iniciar Rodada</button>
+          <button id="btnExport" class="btn ghost">⬇ Exportar JSON</button>
+        </div>
+      </section>
+
+      <!-- RIGHT: INPUT + FEEDBACK -->
+      <section class="card">
+        <div class="card__head">
+          <div class="badge alt">Idea Forge</div>
+          <div class="tiny">Escreve 1–3 linhas que cumpram os desafios.</div>
+        </div>
+
+        <textarea id="ideaBox" class="idea" placeholder="ex.: janela aberta, pão quente, 'I choose peace', sete palavras exatas numa linha…"></textarea>
+
+        <div class="checks" id="checks"></div>
+
+        <div class="score">
+          <div><strong>Pontuação:</strong> <span id="score">0</span></div>
+          <div><strong>Recorde:</strong> <span id="highScore">0</span></div>
+        </div>
+
+        <div class="actions">
+          <button id="btnSubmit" class="btn">✨ Submeter</button>
+          <button id="btnClear" class="btn ghost">↺ Limpar</button>
+          <button id="btnTone" class="btn ghost">♪ Tom</button>
+        </div>
+      </section>
+
+      <!-- PANEL: CONFIG CRAZY SMART -->
+      <section class="card">
+        <div class="card__head">
+          <div class="badge alt2">Configurações Loucas & Inteligentes</div>
+        </div>
+
+        <div class="panel">
+          <label class="row">
+            <span>Dificuldade</span>
+            <select id="cfgDifficulty">
+              <option value="easy">easy</option>
+              <option value="normal" selected>normal</option>
+              <option value="hard">hard</option>
+              <option value="prophet">prophet</option>
+            </select>
+          </label>
+
+          <label class="row">
+            <span>Caos (aleatoriedade)</span>
+            <input id="cfgChaos" type="range" min="0" max="100" value="35"/>
+          </label>
+
+          <label class="row">
+            <span>Duração (segundos)</span>
+            <input id="cfgSeconds" type="number" min="10" max="180" value="30"/>
+          </label>
+
+          <label class="row">
+            <span>Foco preferido</span>
+            <select id="cfgFocusPref">
+              <option value="auto" selected>auto</option>
+              <option value="voz">voz</option>
+              <option value="ritmo">ritmo</option>
+              <option value="imagem">imagem</option>
+              <option value="pergunta">pergunta</option>
+              <option value="silencio">silêncio</option>
+            </select>
+          </label>
+
+          <label class="row row--toggle">
+            <span>Assistente Bíblico</span>
+            <input id="cfgBible" type="checkbox" checked/>
+          </label>
+
+          <label class="row row--toggle">
+            <span>Validação Inteligente</span>
+            <input id="cfgSmart" type="checkbox" checked/>
+          </label>
+        </div>
+
+        <div class="micro">
+          Dica: <em>prophet</em> invoca testes de 7 palavras, objeto doméstico e bilíngue 👀
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      Feito por  <strong>Lud</strong> • símbolo: fé × psicanálise × música × mar • tudo salvo no seu navegador.
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
